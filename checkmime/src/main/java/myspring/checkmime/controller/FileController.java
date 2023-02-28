@@ -22,17 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import myspring.checkmime.model.FileResponse;
-import myspring.checkmime.service.IFileSytemStorage;
+import myspring.checkmime.service.IFileSystemStorageService;
 
 import java.util.List;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/wsrest")
+@RequestMapping("/wsrest/file")
 public class FileController {
 	@Autowired
-	IFileSytemStorage fileSytemStorage;
+	IFileSystemStorageService fileSytemStorage;
 
 	@PostMapping("/uploadfile")
 	public ResponseEntity<FileResponse> uploadSingleFile (@RequestParam("file") MultipartFile file) {

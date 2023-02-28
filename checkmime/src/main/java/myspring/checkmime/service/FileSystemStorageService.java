@@ -29,7 +29,7 @@ import myspring.checkmime.exception.FileStorageException;
 import myspring.checkmime.properties.FileUploadProperties;
 
 @Service
-public class FileSystemStorageService implements IFileSytemStorage {
+public class FileSystemStorageService implements IFileSystemStorageService {
 	private final Path dirLocation;
 	@Autowired
 	public FileSystemStorageService(FileUploadProperties fileUploadProperties) {
@@ -44,7 +44,10 @@ public class FileSystemStorageService implements IFileSytemStorage {
 	public void init() {
 		System.out.println("DIR UPLOAD = " + this.dirLocation);
 		try {
-			Files.createDirectories(this.dirLocation);
+			if(!Files.isDirectory(this.dirLocation)) {
+				Files.createDirectories(this.dirLocation);
+				System.out.println(this.dirLocation + " -> creation folder successful!");
+			} else System.out.println(this.dirLocation + " -> folder created before!");
 		}
 		catch (Exception ex) {
 			throw new FileStorageException("Could not create upload dir!");
@@ -84,7 +87,13 @@ public class FileSystemStorageService implements IFileSytemStorage {
 
 	@Override
 	public void deleteAll() {
-		FileSystemUtils.deleteRecursively(this.dirLocation.toFile());
+		if(Files.isDirectory(this.dirLocation)) {
+			try {
+				if(!isUpLoadEmpty()) FileSystemUtils.deleteRecursively(this.dirLocation.toFile());
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	@Override
@@ -99,6 +108,12 @@ public class FileSystemStorageService implements IFileSytemStorage {
 			throw new FileStorageException("Could not load all files");
 		}
 		return result;
+	}
+
+	private boolean isUpLoadEmpty() throws IOException {
+		try (Stream<Path> entries = Files.list(this.dirLocation)) {
+			return !entries.findFirst().isPresent();
+		}
 	}
 
 }

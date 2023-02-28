@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.nio.file.Files;
+
 @SpringBootApplication
 @RestController
 @ConfigurationPropertiesScan
@@ -35,6 +37,7 @@ public class CheckmimeApplication {
 
 	@Bean
 	CommandLineRunner init(FileSystemStorageService fileSystemStorageService) {
+		System.out.println("INIT UPLOAD");
 		return (args) -> {
 			fileSystemStorageService.deleteAll();
 
