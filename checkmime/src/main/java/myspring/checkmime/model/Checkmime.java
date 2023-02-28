@@ -1,5 +1,13 @@
 package myspring.checkmime.model;
 
+/*
+ **********************
+ * Checkmime
+ * by Edoardo Sabatini
+ * @2023
+ **********************
+ */
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

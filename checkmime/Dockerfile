@@ -1,5 +1,5 @@
 ##########################
-# Build checkmime
+# Build Checkmime
 # by Edoardo Sabatini
 # @2023
 ##########################

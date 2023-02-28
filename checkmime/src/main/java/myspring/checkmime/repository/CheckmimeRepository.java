@@ -1,5 +1,13 @@
 package myspring.checkmime.repository;
 
+/*
+ **********************
+ * Checkmime
+ * by Edoardo Sabatini
+ * @2023
+ **********************
+ */
+
 import java.util.List;
 
 import myspring.checkmime.model.Checkmime;
