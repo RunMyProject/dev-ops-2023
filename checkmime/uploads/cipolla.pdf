@@ -1,0 +1,79 @@
+-------------------------
+servizi principali tramite Postman:
+
+get / test
+- http://localhost:6868/wsrest/db/checkmimes/
+- http://localhost:6868/wsrest/file/getAll
+
+post (BODY -> FORMAT-DATA poi tipo FILE su KEY)
+- http://localhost:6868/wsrest/file/uploadfile / file
+- http://localhost:6868/wsrest/file/uploadfiles / files
+
+get / solution
+- http://localhost:6868/wsrest/validation
+------------------------------------------------------------
+istruzioni:
+docker-compose build
+docker-compose up oppure docker-compose up -d per background
+-------------------------------------------------------
+Per lanciare i test:
+aprire altra shell
+1 docker ps
+2 docker inspect
+3 cd checkmine
+4 modificare application.properties
+5 maven clean install
+----------------------------------------------------------
+dev-ops-2023
+Problema: Verifica mime type di un file tramite ws Rest
+----------------------------------------------------------
+Data una cartella del file system(parametro di input) 
+che contiene file in vari formati,
+compresa la casistica di file formati(p7m).deve essere verificato per ognuno di essi 
+se il mime type coincide con uno di quelli presenti su una tabella del db. 
+
+In caso di verifica positiva il file viene considerato validato e viene restituito un ok , altrimenti un ko. 
+
+I file p7m devono essere sbustati e verificato il mime del file senza la busta. 
+
+Quindi nel caso di un file a.pdf.p7m la verifica deve essere fatta sul file
+
+Definire la struttura della tabella e mapparla e gestire tramite JPA le query necessarie al funzionamento dell’applicazione.
+
+Il ws rest che deve essere sviluppato deve prevedere anche un meccanismo di autenticazione in ingresso.
+
+La scelta del meccanismo di autenticazione è lasciata libera, 
+ma sono da preferire meccanismi che garantiscano la massima sicurezza.
+
+Il ws deve prevedere come parametro di input il folder 
+che contiene i file 
+e deve restituire come risposta una lista di oggetti in formato json. 
+
+La risposta deve essere paginata.
+
+Ogni oggetto rappresenta un file con il relativo stato di validazione. 
+
+Esempio:
+
+se il file a.pdf è validato la risposta sarà del tipo:
+
+filename:a.pdf,
+
+validated:true
+
+in caso contrario
+
+filename:a.pdf,
+
+validated:false
+-------------------------------------------------------------------
+ 
+
+Si richiede di definire anche i test 
+per verificare il corretto funzionamento. 
+
+Documentare la soluzione e il codice sviluppato.
+
+
+
+
