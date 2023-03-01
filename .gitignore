@@ -1,3 +1,10 @@
+# Checkmine 
+# by Edoardo Sabatini
+# @2023
+
+# App
+checkmine/uploads
+
 # Spring
 .classpath
 .project
