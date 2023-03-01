@@ -8,6 +8,7 @@ package myspring.checkmime.controller;
  **********************
  */
 
+import myspring.checkmime.model.Checkmime;
 import myspring.checkmime.model.LayoutResponse;
 import myspring.checkmime.model.ValidationFormat;
 import myspring.checkmime.repository.CheckmimeRepository;
@@ -30,6 +31,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RestController
 @RequestMapping("/wsrest")
 public class ValidationController {
+
+	private final static String MIME_FORMAT = "p7m";
+	private final static char MIME_SEPARATOR = '.';
+
 	@Autowired
 	CheckmimeRepository checkmimeRepository;
 	@Autowired
@@ -48,6 +53,17 @@ public class ValidationController {
 		int totPages = fileSystemStorage.listFiles().size() / validationService.getPageNumber();
 		int totLast = totFiles - (totPages*validationService.getPageNumber());
 
+		List<Checkmime> checkmimeList = checkmimeRepository.findByEnabled(true);
+
+		boolean enabled_p7m = false;
+
+		for(Checkmime checkmime : checkmimeList) {
+			if(checkmime.getFormat().equals(MIME_FORMAT)) {
+				enabled_p7m = checkmime.isEnabled();
+				break;
+			}
+		}
+
 		for(Path path : fileSystemStorage.listFiles()) {
 
 			String fileName = path.getFileName().toString();
@@ -63,6 +79,25 @@ public class ValidationController {
 				for(String file : files) {
 
 					boolean validated = false;
+
+					String extension = "";
+					int i = file.lastIndexOf(MIME_SEPARATOR);
+
+					if(i>0) extension = file.substring(i+1);
+
+					if(enabled_p7m && extension.equals(MIME_FORMAT)) {
+
+						String fileWithout_p7m = file.substring(0, i);
+						int j = fileWithout_p7m.lastIndexOf(MIME_SEPARATOR);
+
+						if(j>0) extension = fileWithout_p7m.substring(j+1);
+						else extension = "";
+					}
+
+					for(Checkmime checkmime : checkmimeList) {
+						if(!validated) validated = extension.equalsIgnoreCase(checkmime.getFormat());
+						else break;
+					}
 
 					ValidationFormat validationFormat = ValidationFormat.builder()
 							.filename(file)
@@ -83,4 +118,5 @@ public class ValidationController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(layoutResponses);
 	}
+
 }
