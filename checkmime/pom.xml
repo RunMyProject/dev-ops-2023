@@ -24,6 +24,7 @@
 
 	<dependencies>
 
+		<!-- Checkmime init -->
 		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-core</artifactId>

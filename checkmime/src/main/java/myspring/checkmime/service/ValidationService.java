@@ -23,7 +23,7 @@ public class ValidationService implements IValidationService {
 	@Override
 	@PostConstruct
 	public void init() {
-		System.out.println("SIZE PAGE OBJECTS = " + this.pageNumber);
+		// System.out.println("SIZE PAGE OBJECTS = " + this.pageNumber);
 	}
 	@Override
 	public Integer getPageNumber() {

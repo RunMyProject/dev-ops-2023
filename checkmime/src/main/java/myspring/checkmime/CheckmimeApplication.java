@@ -37,7 +37,7 @@ public class CheckmimeApplication {
 
 	@Bean
 	CommandLineRunner init(FileSystemStorageService fileSystemStorageService) {
-		System.out.println("INIT UPLOAD");
+		// System.out.println("INIT UPLOAD");
 		return (args) -> {
 			fileSystemStorageService.deleteAll();
 

@@ -42,12 +42,13 @@ public class FileSystemStorageService implements IFileSystemStorageService {
 	@Override
 	@PostConstruct
 	public void init() {
-		System.out.println("DIR UPLOAD = " + this.dirLocation);
+		// System.out.println("DIR UPLOAD = " + this.dirLocation);
 		try {
 			if(!Files.isDirectory(this.dirLocation)) {
 				Files.createDirectories(this.dirLocation);
-				System.out.println(this.dirLocation + " -> creation folder successful!");
-			} else System.out.println(this.dirLocation + " -> folder created before!");
+				// System.out.println(this.dirLocation + " -> creation folder successful!");
+			}
+			// else System.out.println(this.dirLocation + " -> folder created before!");
 		}
 		catch (Exception ex) {
 			throw new FileStorageException("Could not create upload dir!");

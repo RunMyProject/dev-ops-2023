@@ -8,9 +8,11 @@ package myspring.checkmime.controller;
  **********************
  */
 
+import myspring.checkmime.exception.ValidationException;
 import myspring.checkmime.model.Checkmime;
 import myspring.checkmime.model.LayoutResponse;
 import myspring.checkmime.model.ValidationFormat;
+import myspring.checkmime.properties.FileUploadProperties;
 import myspring.checkmime.repository.CheckmimeRepository;
 import myspring.checkmime.service.IFileSystemStorageService;
 import myspring.checkmime.service.IValidationService;
@@ -33,6 +35,7 @@ import org.apache.tika.config.TikaConfig;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,6 +47,10 @@ public class ValidationController {
 
 	private final static String MIME_FORMAT = "p7m";
 	private final static char MIME_SEPARATOR = '.';
+	private final static String TMP_FILE_PREFIX = "_tmp_";
+	private final static String PERL_COMMANDLINE = "perl -ne 's/^.*%PDF/%PDF/; print if /%PDF/../%%EOF/' ";
+	private final boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
+	private Path homeDirectory = null;
 
 	@Autowired
 	CheckmimeRepository checkmimeRepository;
@@ -51,8 +58,18 @@ public class ValidationController {
 	IFileSystemStorageService fileSystemStorage;
 	@Autowired
 	IValidationService validationService;
+	@Autowired
+	FileUploadProperties fileUploadProperties;
+
 	@GetMapping("/validation")
 	public ResponseEntity<List<LayoutResponse>> validationAll() {
+
+		if(homeDirectory==null) {
+			String userDirectory = System.getProperty("user.dir");
+			this.homeDirectory = Paths.get(userDirectory + fileUploadProperties.getLocation())
+					.toAbsolutePath()
+					.normalize();
+		}
 
 		List<LayoutResponse> layoutResponses = new ArrayList<>();
 		List<Path> files = new ArrayList<>();
@@ -68,12 +85,10 @@ public class ValidationController {
 		// Initialize p7m format
 		//
 		boolean enabled_p7m = false;
-		String description_p7m = null;
 
 		for(Checkmime checkmime : checkmimeList) {
 			if(checkmime.getFormat().equals(MIME_FORMAT)) {
 				enabled_p7m = checkmime.isEnabled();
-				description_p7m = checkmime.getDescription();
 				break;
 			}
 		}
@@ -99,22 +114,29 @@ public class ValidationController {
 					if(i>0) extension = fileName.substring(i+1);
 
 					boolean is_p7m = false;
+					String fileWithout_p7m = null;
 
 					if(enabled_p7m && extension.equals(MIME_FORMAT)) {
 
-						String fileWithout_p7m = fileName.substring(0, i);
+						fileWithout_p7m = fileName.substring(0, i);
 						int j = fileWithout_p7m.lastIndexOf(MIME_SEPARATOR);
 
 						if(j>0) {
-							extension = fileWithout_p7m.substring(j+1); // internal extension
+							// internal extension of p7m
+							//
+							extension = fileWithout_p7m.substring(j+1);
 							is_p7m = true;
 						}
 						else extension = "";
 					}
 
+					// Initialize validation
+					//
 					Checkmime checkmimeCurrent = null;
 					boolean validated = false;
 
+					// First validation: check extension format in DB
+					//
 					for(Checkmime checkmime : checkmimeList) {
 						if(!validated) {
 							validated = extension.equalsIgnoreCase(checkmime.getFormat());
@@ -127,16 +149,60 @@ public class ValidationController {
 
 					if(validated) {
 
-						try {
-							String descriptionMimeFormat = getMimeFormat(filePath.toFile());
-							validated = descriptionMimeFormat.equals(is_p7m ? description_p7m : checkmimeCurrent.getDescription());
+						String descriptionMimeFormat = null;
 
-							System.out.println(descriptionMimeFormat);
+						if(is_p7m) {
 
-						} catch (IOException e) {
-							validated = false;
-							throw new RuntimeException(e);
+							// initialize file name tmp
+							//
+							String tmpFileName = homeDirectory.toString() + "/" + TMP_FILE_PREFIX + fileWithout_p7m;
+
+							// preparing commandLine process builder
+							//
+							String commandLine = PERL_COMMANDLINE + homeDirectory.toString() + "/" + fileName +
+									" &>" + tmpFileName;
+							ProcessBuilder builder = new ProcessBuilder(isWindows ? "cmd.exe" : "/bin/bash", isWindows ? "/c" : "-c",
+									commandLine
+							);
+
+							// crating logs files
+							//
+							builder.redirectOutput(new File("perl_output_log.txt"));
+							builder.redirectError(new File("perl_error_log.txt"));
+
+							// creating a new process
+							//
+							Process myProcess = null;
+							try {
+								myProcess = builder.start();
+								// waits for the process until you terminate
+								//
+								myProcess.waitFor();
+								// check mime without p7m crypting
+								//
+								File tmpFile = new File(tmpFileName);
+								descriptionMimeFormat = getMimeFormat(tmpFile);
+								if (!tmpFile.delete()) {
+									throw new ValidationException("Deleting the file: " + tmpFile.getName());
+								}
+							}
+							catch (IOException e) {
+								throw new ValidationException("Process Validation: " + e.getMessage());
+							}
+							catch (InterruptedException e) {
+								throw new ValidationException("Process Validation: " + e.getMessage());
+							}
+						} else {
+							descriptionMimeFormat = getMimeFormat(filePath.toFile());
 						}
+
+						if(descriptionMimeFormat==null || descriptionMimeFormat.isEmpty()) {
+							throw new ValidationException("Cannot read mime format from Tika!");
+						}
+
+						// Second validation: check validation mime description in DB after Tika extraction
+						//
+						validated = descriptionMimeFormat.equals(checkmimeCurrent.getDescription());
 					}
 
 					ValidationFormat validationFormat = ValidationFormat.builder()
@@ -159,7 +225,7 @@ public class ValidationController {
 		return ResponseEntity.status(HttpStatus.OK).body(layoutResponses);
 	}
 
-	private String getMimeFormat(File f) throws IOException {
+	private String getMimeFormat(File f) {
 
 		String mimeType = null;
 		try {
@@ -169,7 +235,10 @@ public class ValidationController {
 			md.set(Metadata.RESOURCE_NAME_KEY, f.getName());
 			mimeType = tc.getDetector().detect(TikaInputStream.get(is), md).toString();
 		}
-		catch (Exception e) {
+		catch (org.apache.tika.exception.TikaException e) {
+			e.printStackTrace();
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 

@@ -1,0 +1,23 @@
+get / test
+- http://localhost:6868/wsrest/db/checkmimes/
+- http://localhost:6868/wsrest/file/getAll
+post (in Postman, BODY -> FORMAT-DATA, next choose type FILE on field KEY)
+- http://localhost:6868/wsrest/file/uploadfile - KEY=file
+- http://localhost:6868/wsrest/file/uploadfiles - KEY=files
+get / the solution
+- http://localhost:6868/wsrest/validation
+------------------------------------------------------------
+docker-compose build
+docker-compose up 
+docker-compose up -d # background
+-------------------------------------------------------
+test launch:
+new bash shell:
+1 docker ps
+2 docker inspect
+3 cd checkmine
+4 modify application.properties
+5 maven clean install
+----------------------------------------------------------
+docker exec -it 4733ddac64bd bash
+
