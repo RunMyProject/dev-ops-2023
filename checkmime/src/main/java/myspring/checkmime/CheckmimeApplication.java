@@ -8,6 +8,7 @@ package myspring.checkmime;
  **********************
  */
 
+import myspring.checkmime.config.JwtTokenUtil;
 import myspring.checkmime.properties.FileUploadProperties;
 import myspring.checkmime.service.FileSystemStorageService;
 import org.springframework.boot.CommandLineRunner;
@@ -16,17 +17,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.nio.file.Files;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootApplication
 @RestController
 @ConfigurationPropertiesScan
 @EnableConfigurationProperties({FileUploadProperties.class})
 public class CheckmimeApplication {
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+
 	public static void main(String[] args) {
 		SpringApplication.run(CheckmimeApplication.class, args);
 	}

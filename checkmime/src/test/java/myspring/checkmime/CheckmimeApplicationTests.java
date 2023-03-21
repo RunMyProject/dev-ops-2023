@@ -9,7 +9,9 @@ package myspring.checkmime;
  */
 
 import myspring.checkmime.model.Checkmime;
+import myspring.checkmime.model.CheckmimeUser;
 import myspring.checkmime.repository.CheckmimeRepository;
+import myspring.checkmime.repository.CheckmimeUserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ class CheckmimeApplicationTests {
 	@Autowired
 	CheckmimeRepository checkmimeRepository;
 
+	@Autowired
+	CheckmimeUserRepository checkmimeUserRepository;
+
 	@Test
 	void contextLoads() {
 
@@ -46,4 +51,17 @@ class CheckmimeApplicationTests {
 		assertTrue(!checkmimeList.isEmpty());
 		assertTrue(checkmimeList.size()==4);
 	}
+
+	@Test
+	@Sql(scripts={"/import_checkmimeusers_table.sql"})
+	public void givenCheckmimeRepository_whenRetreiveCheckmimeUsersList_thenOK() {
+
+		List<CheckmimeUser> checkmimeuserList = new ArrayList<>();
+		checkmimeUserRepository.findAll().forEach(checkmimeuserList::add);
+
+		assertNotNull(checkmimeuserList);
+		assertTrue(!checkmimeuserList.isEmpty());
+		assertTrue(checkmimeuserList.size()==2);
+	}
+
 }
