@@ -64,17 +64,26 @@ It is also required to define the tests to verify correct functioning.
       - "token":
       - "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlZG9hcmRvIiwiZXhwIjoxNjc5NDQxODEzLCJpYXQiOjE2Nzk0NDEyMTN9.LljC3TSK0Tj42ihwq6ZRFe06EvhHITUUo5eyW6NJCnjnm5HOzJ-RXU30TU_JtwgX8JjQ4GF3R_8dc9BH3RxvDA"
       - }
+
+![Fig. 1 ](images/fig_1.png)
+
 6. test the new authentication with the Application's test hello call:
     1. in GET call: http://localhost:6868/hello
     2. in HEADERS insert in the Authorization field a string Bearer and the value of the token:
        - Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlZG9hcmRvIiwiZXhwIjoxNjc5NDQxODEzLCJpYXQiOjE2Nzk0NDEyMTN9.LljC3TSK0Tj42ihwq6ZRFe06EvhHITUUo5eyW6NJCnjnm5HOzJ-RXU30TU_JtwgX8JjQ4GF3R_8dc9BH3RxvDA
     3.  you should see Hello World! with Status 200 OK
+
+![Fig. 2 ](images/fig_2.png)
+
 7. if you want to exit just invoke the GET logout API with the token in the HEADER::
     1. in GET call: http://localhost:6868/logout
     2. in HEADERS insert in the Authorization field a string Bearer and the value of the token:
         - Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlZG9hcmRvIiwiZXhwIjoxNjc5NDQxODEzLCJpYXQiOjE2Nzk0NDEyMTN9.LljC3TSK0Tj42ihwq6ZRFe06EvhHITUUo5eyW6NJCnjnm5HOzJ-RXU30TU_JtwgX8JjQ4GF3R_8dc9BH3RxvDA
     3.  you should see a white screen with Status 200 OK
     4. you can test the hello API again to see it in "unauthorized" status
+
+![Fig. 3 ](images/fig_3.png)
+ 
 8. to see the formats prepared in the db:
     1. in GET call: http://localhost:6868/wsrest/db/checkmimes/
     2. in HEADERS enter in the Authorization field like the other steps
@@ -87,7 +96,10 @@ It is also required to define the tests to verify correct functioning.
        "enabled": true
        }, ...
        - ...]
-9. per caricare un file, utilizzare l'API di caricamento upload:
+
+![Fig. 4 ](images/fig_4.png)
+
+9. to upload a file, use the upload API:
      1. in POST call: http://localhost:6868/wsrest/file/uploadfile
      2.  in HEADERS enter in the Authorization field like the other steps
      3. in BODY insert in the file field and choosing the FILE type and
@@ -99,11 +111,17 @@ It is also required to define the tests to verify correct functioning.
    "message": "File uploaded with success!"
    }    
     5.  note: in the git repository there is a folder to upload the most classic tests for the objective of the code challenge
-10. you can always see and monitor the uploaded files:
+
+![Fig. 5 ](images/fig_5.png)
+
+11. you can always see and monitor the uploaded files:
     1. in GET call: http://localhost:6868/wsrest/file/getAll
     2. in HEADERS enter in the Authorization field like the other steps
     3. you should see a JSON structure:
        - [{"fileName": "simple.txt", "fileUrl": "http://localhost:6868/wsrest/download/simple.txt", "message": "List all files with success!" }]
+    
+![Fig. 6 ](images/fig_6.png)
+
 11. if you don't want to waste much time, you can always use the multi-upload API to upload multiple files at the same time!
     1. in POST call: http://localhost:6868/wsrest/file/uploadfiles
     2. in HEADERS enter in the Authorization field like the other steps
@@ -112,12 +130,17 @@ It is also required to define the tests to verify correct functioning.
     4. you should see a long JSON structure based on number files:
        - [{ "fileName": ......
        - ...]
-12. finally, to validate all files as required, use validation:
+       
+![Fig. 7 ](images/fig_7.png)
+
+14. finally, to validate all files as required, use validation:
     1. in GET call: http://localhost:6868/wsrest/validation
     2. in HEADERS enter in the Authorization field like the other steps
     3. you should see a long JSON structure based on number files:
        - [ {"validationList": [
          { "filename": "simple.txt", "validated": true } ],
          "page": 1 }]
+
+![Fig. 8 ](images/fig_8.png)
 
 ---
