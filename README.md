@@ -213,3 +213,47 @@ reasoned use of every means available contributes decisively to
 
 ---
 
+# Image Orchestration
+
+The architecture is composed via **Docker-Compose**, 
+a **MySQL image (mysqldb port)** and a Web Application image in **Spring-Boot 2.2.1.RELEASE (myapp port)**.
+
+A "hidden" **.env** file takes care of the environment variables to pass them to the two systems.
+
+For **mysqldb** *(unless-stopped)* when the container is stopped (manually or otherwise), it is not restarted even after Docker daemon restarts.
+
+For **myapp** *(on-failure)* Docker daemon restarts the container if it exits due to an error, which manifests as a non-zero exit code.
+
+### Docker build Steps:
+
+When you invoke **docker-compose build** Docker will build the Spring build via the Dockerfile
+same folder: 
+
+1. first step: to avoid maven library load delay latency, it copies only pom.xml of checkmime project and download dependencies;
+2. second step: Docker copies all other checkmime project files and creates the final project with Maven;
+
+### Note to developer (application.properties) - running the system locally:
+
+- Once you have mounted the two images, you can always run the tests with Maven from the source folder and access the MySQL DB;
+-  (or run the single image launch command **docker-compose start mysqldb** );
+- to do this, follow the steps below:
+    1. invoke command from shell **docker ps**;
+  2. search for the MySQL container identifier **(MYSQL_container id)**;
+  3. run **docker inspect <MYSQL_container id>**;
+  4. then look for the IP address of the virtual machine, you can freely use filter commands like **grep**;
+  5. you should find a string like: **"IPAddress": "172.18.0.2"**;
+  6. change line no. 40 of application.properties under Spring Project Resources;
+  7. spring.datasource.url=jdbc:mysql://**172.18.0.2**:3306/checkmime_db?useSSL=false&allowPublicKeyRetrieval=false&serverTimezone=UTC;
+  8. while if if you work inside docker images then you will use access of address mapped in **docker-compose.yml (mysqldb)**;
+  9. spring.datasource.url=jdbc:mysql://**mysqldb**:3306/checkmime_db?useSSL=false&allowPublicKeyRetrieval=false&serverTimezone=UTC;
+  10. now you can run **mvn test** or **mvn spring-boot:run** to run your code locally!
+
+---
+
+
+
+
+
+
+---
+
