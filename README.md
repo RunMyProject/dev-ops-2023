@@ -2,7 +2,17 @@
 Check mime type of a file using WS REST
 ---
 
-**Problem Solving:** Verify mime type of a file using **ws Rest.**
+**Requirements:**
+
+jdk:**>=8**
+
+Framework: if possible **Spring >= 4.0**, but other solutions are also accepted
+
+Database: **MySql**
+
+---
+
+**Problem Solving:** Verify **mime type** of a file using **ws Rest.**
 
 Given **a folder of the file system (input parameter)** which contains files in **various formats,** 
 including the case of signed files **(p7m)**. it must be checked for each of them if the mime type coincides
