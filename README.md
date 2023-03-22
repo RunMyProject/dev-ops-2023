@@ -114,7 +114,7 @@ It is also required to define the tests to verify correct functioning.
 
 ![Fig. 5 ](images/fig_5.png)
 
-11. you can always see and monitor the uploaded files:
+10. you can always see and monitor the uploaded files:
     1. in GET call: http://localhost:6868/wsrest/file/getAll
     2. in HEADERS enter in the Authorization field like the other steps
     3. you should see a JSON structure:
@@ -133,7 +133,7 @@ It is also required to define the tests to verify correct functioning.
        
 ![Fig. 7 ](images/fig_7.png)
 
-14. finally, to validate all files as required, use validation:
+12. finally, to validate all files as required, use validation:
     1. in GET call: http://localhost:6868/wsrest/validation
     2. in HEADERS enter in the Authorization field like the other steps
     3. you should see a long JSON structure based on number files:
