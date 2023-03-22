@@ -203,3 +203,13 @@ overseeing **continuous delivery** and **executing complex tasks**.
 
 ---
 
+# Motivation
+
+The **real challenge of this project** is not so much linked to the 
+selection of a single solution that alone satisfies the **Security component** 
+of SecDevOps, as to the ability to understand that a correct and 
+reasoned use of every means available contributes decisively to 
+**the objective to make Security an ever-present and indispensable condition!**
+
+---
+
