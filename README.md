@@ -2,6 +2,19 @@
 Check mime type of a file using WS REST
 ---
 
+# [Contents](#contents)
+1. - [Problem Solving](#problem-solving)
+2. - [Instructions For Use](#instructions-for-use)
+3. - [Architecture Introduction](#architecture-introduction)
+4. - [Motivation](#motivation)
+5. - [Image Orchestration](#image-orchestration)
+6. - [Docker build Steps](#docker-build-steps)
+7. - [DBeaver Configuration](#dbeaver-configuration)
+8. - [Spring Architecture Drawing](#spring-architecture-drawing)
+9. - [Structure Source Codes](#structure-source-codes)
+
+---
+
 **Requirements:**
 
 jdk:**>=8**
@@ -12,7 +25,10 @@ Database: **MySql**
 
 ---
 
-**Problem Solving:** Verify **mime type** of a file using **ws Rest.**
+## Problem Solving
+[|-> go back contents](#contents)
+
+**Problem:** Verify **mime type** of a file using **ws Rest.**
 
 Given **a folder of the file system (input parameter)** which contains files in **various formats,** 
 including the case of signed files **(p7m)**. it must be checked for each of them if the mime type coincides
@@ -55,9 +71,11 @@ It is also required to define the tests to verify correct functioning.
 **Document the solution** and the developed code.
 
 ---
-# Instructions for Use
 
-### shell:
+## Instructions For Use
+[|-> go back contents](#contents)
+
+### Shell:
 
 1. git clone https://github.com/RunMyProject/dev-ops-2023.git
 2. cd dev-ops-2023
@@ -158,7 +176,8 @@ Architecture Solution and Software Development Life-Cycle (SDLC)
 ---
 ---
 
-# Introduction
+## Architecture Introduction
+[|-> go back contents](#contents)
 
 The architecture is a classic **SecDevOps model**, where **Security** is the priority to develop at its best.
 
@@ -203,7 +222,8 @@ overseeing **continuous delivery** and **executing complex tasks**.
 
 ---
 
-# Motivation
+## Motivation
+[|-> go back contents](#contents)
 
 The **real challenge of this project** is not so much linked to the 
 selection of a single solution that alone satisfies the **Security component** 
@@ -213,7 +233,8 @@ reasoned use of every means available contributes decisively to
 
 ---
 
-# Image Orchestration
+## Image Orchestration
+[|-> go back contents](#contents)
 
 The architecture is composed via **Docker-Compose**, 
 a **MySQL image (mysqldb port)** and a Web Application image in **Spring-Boot 2.2.1.RELEASE (myapp port)**.
@@ -224,7 +245,8 @@ For **mysqldb** *(unless-stopped)* when the container is stopped (manually or ot
 
 For **myapp** *(on-failure)* Docker daemon restarts the container if it exits due to an error, which manifests as a non-zero exit code.
 
-### Docker build Steps:
+## Docker build Steps
+[|-> go back contents](#contents)
 
 When you invoke **docker-compose build** Docker will build the Spring build via the Dockerfile
 same folder: 
@@ -249,8 +271,10 @@ same folder:
   10. now you can run **mvn test** or **mvn spring-boot:run** to run your code locally!
 
 ---
-DBeaver Configuration
----
+
+## DBeaver Configuration
+[|-> go back contents](#contents)
+
 To configure your Client DB (example DBeaver) follow the same steps of the previous step!
 
 ![DBeaver_config_1.png]( images/DBeaver_config_1.png)
@@ -258,11 +282,17 @@ To configure your Client DB (example DBeaver) follow the same steps of the previ
 ![DBeaver_config_2.png]( images/DBeaver_config_2.png)
 
 ---
-Spring Architecture Drawing
----
+
+## Spring Architecture Drawing
+[|-> go back contents](#contents)
+
+Below is a simple diagram of the communication between the various blocks of the application.
 
 ![Architect.png]( images/Architect.png)
 
 ---
 
----
+## Structure Source Codes
+[|-> go back contents](#contents)
+
+TODO
