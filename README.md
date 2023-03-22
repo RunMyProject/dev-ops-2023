@@ -249,11 +249,15 @@ same folder:
   10. now you can run **mvn test** or **mvn spring-boot:run** to run your code locally!
 
 ---
+DBeaver Configuration
+---
+To configure your Client DB (example DBeaver) follow the same steps of the previous step!
 
+![DBeaver_config_1.png](..%2F..%2FImmagini%2FSchermate%2FDBeaver_config_1.png)
 
-
-
-
+![DBeaver_config_2.png](..%2F..%2FImmagini%2FSchermate%2FDBeaver_config_2.png)
 
 ---
+
+
 
