@@ -154,3 +154,52 @@ It is also required to define the tests to verify correct functioning.
 ![Fig. 8 ](images/fig_8.png)
 
 ---
+Architecture Solution and Software Development Life-Cycle (SDLC)
+---
+---
+
+# Introduction
+
+The architecture is a classic **SecDevOps model**, where **Security** is the priority to develop at its best.
+
+Why are more companies choosing the **new SecDevOps model** today?
+
+The transition from the **Waterfall** software development model to **Agile**,
+to finally reach **DevOps**, makes it necessary to profoundly change the ways 
+in which the organization can/must exercise the **operational management of security** 
+within one of the most **delicate processes** (for example the life cycle).
+
+The **Agile evolution** sees its main innovation in the iterative approach
+to development, allowing changes to product requirements at any time.
+
+### DevOps takes it one step further, bringing together development and operations into a single lifecycle in favor of greater efficiency and automation of the aforementioned processes.
+
+As a result of these changes, the **time** it takes to build projects 
+has **decreased significantly!!! :-)** 
+from a release **every six months**, to a release **every week or two**, 
+to a **release every few days.....!**
+
+**DevOps**, in fact, undermines the traditional concept of service 
+by **adapting** it to the **speed of business** change!
+
+In DevOps, very **few processes and services** are viewed and maintained
+as **static entities** to compete in a growing market where the ability 
+to rapidly adapt **to ever changing needs is growing!**
+
+Therefore, **security issues** can no longer be addressed only at the end
+of the cycle which is tolerable in the **waterfall model!** 
+
+So, the implementations and security fixes addressed 
+only **before the release of the software** become too burdensome, 
+too expensive and actually prevent the full implementation of the new model.
+
+According to **SecDevOps**, **all DevOps professionals** must also be
+**security professionals**. 
+
+In this way, as many **security tasks** as possible can be performed 
+within the daily routine of the **DevOps team**, supported by a minimal
+specialist team that focuses on defining policies, 
+overseeing **continuous delivery** and **executing complex tasks**.
+
+---
+
