@@ -258,6 +258,11 @@ To configure your Client DB (example DBeaver) follow the same steps of the previ
 ![DBeaver_config_2.png]( images/DBeaver_config_2.png)
 
 ---
+Spring Architecture Drawing
+---
 
+![Architect.png]( images/Architect.png)
 
+---
 
+---
