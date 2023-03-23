@@ -11,7 +11,9 @@ Check mime type of a file using WS REST
 6. - [Docker build Steps](#docker-build-steps)
 7. - [DBeaver Configuration](#dbeaver-configuration)
 8. - [Spring Architecture Drawing](#spring-architecture-drawing)
-9. - [Structure Source Codes](#structure-source-codes)
+9. - [Test Cases](#test-cases)
+10. - [Miscellaneous](#miscellaneous)
+11. - [Test Results](#test-results)
 
 ---
 
@@ -292,7 +294,55 @@ Below is a simple diagram of the communication between the various blocks of the
 
 ---
 
-## Structure Source Codes
+## Test Cases
 [|-> go back contents](#contents)
 
-TODO
+Brief description of the test cases used for the project demo with reference to the **/examples** folder:
+
+[1] Allegato_A_Disciplinare_Cc2020.fake -> **PDF** renamed to extension;
+
+[2] Allegato_A_Disciplinare_Cc2020.pdf.p7m -> **PDF** within a standard **P7M**;
+
+[3] Allegato_A_Disciplinare_Cc2020.txt.p7m -> **PDF** within a standard **P7M** with extension renaming to **TXT**;
+
+[4] Allegato_A_Disciplinare_Cc2020_extracted_with_perl.pdf -> **PDF** extracted with **PERL** from a **P7M** format;
+
+[5] Allegato_A_Disciplinare_Cc2020_extracted_with_rename.pdf -> **P7M** file renamed to **PDF**;
+
+[6] GIUSEPPE MONTELLA.crt -> certification extracted from **P7M** file;
+
+[7] simple.txt -> normal **TXT** text file;
+
+[8] simple.pdf -> the simple.txt renamed to **PDF**;
+
+----
+
+## Miscellaneous
+[|-> go back contents](#contents)
+
+[1] For each reboot, the system cleans the **/UPLOAD** folder;
+
+[2] The **/resources/import_checkmime_table.sql** file initializes the **mime format** table;
+
+[3] The **/resources/import_checkmimeusers_table.sql** file initializes the **users** table;
+
+[4] To change the size of the **page-layout**, go to the **/resources/application.properties** file and change the **page.number** parameter;
+
+----
+
+## Test Results
+[|-> go back contents](#contents)
+
+Below is the result of the test case of the entire **/examples folder:**
+
+- Page 1 of final test results:
+
+![Test_Results_page_1.png]( images/Test_Results_page_1.png)
+
+- Page 2 of final test results:
+
+![Test_Results_page_2.png]( images/Test_Results_page_2.png)
+
+---
+
+Thanks for watching!
